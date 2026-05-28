@@ -27,11 +27,6 @@ public class SpringbootBackendApplication implements CommandLineRunner {
 		user.setPassword("password123");
 		userRepository.save(user);
 
-		User user1 = new User();
-		user1.setFirstName("Jane");
-		user1.setLastName("Smith");
-		user1.setEmail("jane.smith@example.com");
-		user1.setPassword("password456");
-		userRepository.save(user1);
+		
 	}
 }
