@@ -20,13 +20,24 @@ public class SpringbootBackendApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		User user = new User();
-		user.setFirstName("John");
-		user.setLastName("Doe");
-		user.setEmail("john.doe@example.com");
-		user.setPassword("password123");
-		userRepository.save(user);
+		if (userRepository.count() == 0) { // Check if data already exists
+			User user = new User();
+			user.setFirstName("John");
+			user.setLastName("Doe");
+			user.setEmail("john.doe@example.com");
+			user.setPassword("password123");
+			userRepository.save(user);
 
-		
+			User user1 = new User();
+			user1.setFirstName("Jane");
+			user1.setLastName("Smith");
+			user1.setEmail("jane.smith@example.com");
+			user1.setPassword("password456");
+			userRepository.save(user1);
+
+			System.out.println("Database seeded successfully!");
+		} else {
+			System.out.println("Database already contains data. Skipping seeding.");
+		}
 	}
 }

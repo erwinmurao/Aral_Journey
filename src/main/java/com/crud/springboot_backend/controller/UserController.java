@@ -1,24 +1,33 @@
 package com.crud.springboot_backend.controller;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.crud.springboot_backend.model.User;
-import com.crud.springboot_backend.repository.UserRepository;
+import com.crud.springboot_backend.dto.UserDto;
+import com.crud.springboot_backend.service.UserService;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    // Build Add User REST API
+    @PostMapping
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+        UserDto savedUser = userService.createUser(userDto);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
-}
+
+    }
+
