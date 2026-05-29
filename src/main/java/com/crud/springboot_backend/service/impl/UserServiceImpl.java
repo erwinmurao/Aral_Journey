@@ -1,6 +1,11 @@
 package com.crud.springboot_backend.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.crud.springboot_backend.dto.UserDto;
 import com.crud.springboot_backend.mapper.UserMapper;
@@ -25,6 +30,23 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(user);
 
         return UserMapper.mapToUserDto(savedUser);
+    }
+
+    @Override
+    public UserDto getUserById(Long userId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> 
+                new RuntimeException("User not found with id: " + userId));
+
+        return UserMapper.mapToUserDto(user);
+    }
+
+    @Override
+    public List<UserDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+            .map((user) -> UserMapper.mapToUserDto(user))
+            .collect(Collectors.toList());
     }
 
 }
